@@ -1,0 +1,49 @@
+Options: look, go, inv, take, drop, use
+
+== Foothills ==
+Don't go south from foothills, leads to a deadend
+Pick up the tablet and use it for a key: SqFnvmsIDFdU
+
+== Dark cave ==
+Go straight until you fall down.
+
+East:
+Go east first, take the empty lantern
+
+West:
+Go west until you get to a ladder
+The ladder is a maze
+
+north -> north -> north is a cycle
+south -> south -> south is a cycle
+east probably has a grue
+west -> north -> north -> north -> ... gives you a can
+
+Use lantern in the darkness, keep going west
+
+== Ruins ==
+
+Keep going north, take the red coin
+use the red coin to fill in the equation
+
+2 + _ * _^2 + _^3 - _= 399
+
+Go west and up, take blue and shiny coins
+go east and down, take corroded and concave coins
+
+red = 2
+corroded = 3
+shiny = 5
+concave = 7
+blue = 9
+
+Answer is (9, 2, 5, 7, 3) (see coins.py)
+
+Go north from here.
+
+Use teleporter!
+
+== Synacor headquarters ==
+Take the strange book to see that the teleporter requires the eighth register to be set to a specific value...
+
+Now you have to look at the assembly dump and figure out what the teleporter value is.

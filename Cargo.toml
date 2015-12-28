@@ -1,0 +1,6 @@
+[package]
+name = "synacor"
+version = "0.1.0"
+authors = ["Arnav Sastry <arnavsastry@gmail.com>"]
+
+[dependencies]
