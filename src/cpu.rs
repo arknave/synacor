@@ -1,7 +1,5 @@
 use std::char;
-use std::ascii::AsciiExt;
 use std::io;
-use std::io::Read;
 
 pub const MEM_SIZE: usize = 1 << 16;
 const REG_SIZE: usize = 8;
@@ -56,9 +54,8 @@ impl Cpu {
     }
 
     /*
-     * Assorted utilities
+     * Assorted utility functions
      */
-
     pub fn load_memory(&mut self, mem: &mut [u16; MEM_SIZE]) {
         self.memory = *mem;
     }
@@ -154,15 +151,17 @@ impl Cpu {
         }
     }
 
+    // This can never overflow outside a u16
     fn add(&mut self, args: Vec<u16>) {
         self.bin_op(args, |a, b| a + b);
     }
 
+    // The conversion to u32 needs to be done in order to handle overflow
     fn mult(&mut self, args: Vec<u16>) {
-        self.bin_op(args, |a, b| ((a as u32) * (b as u32)) as u16);
+        self.bin_op(args, |a, b| ((a as u32) * (b as u32) % (MAX_VAL as u32)) as u16);
     }
 
-    // This function is underscored to avoid conflicting with Rust's mod.
+    // Called _mod to avoid reserved word conflict with Rust's `mod`
     fn _mod(&mut self, args: Vec<u16>) {
         self.bin_op(args, |a, b| a % b);
     }
@@ -212,7 +211,7 @@ impl Cpu {
             self.input_index += 1;
         } else {
             let mut string = String::new();
-            io::stdin().read_line(&mut string);
+            io::stdin().read_line(&mut string).unwrap();
             self.input_buffer = string.into_bytes();
 
             self.registers[reg] = self.input_buffer[0] as u16;

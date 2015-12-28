@@ -1,0 +1,4 @@
+- Write tests
+- Create display class
+- Add termbox display
+- Use cool debugger!
