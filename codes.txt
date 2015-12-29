@@ -1,0 +1,9 @@
+List of codes for synacor challenge:
+
+1. AnttwOyVrLyg (arch-spec)
+2. zAFsNylmzybM (implementing out)
+3. YnbRwwONZbiO (passing self test)
+4. SqFnvmsIDFdU (picking up tablet)
+5. znFsUSdhHeuE (on walls inside ladder maze)
+6. dfEIOPnNeaYZ (after you use the teleporter)
+
