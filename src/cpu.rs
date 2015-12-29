@@ -1,5 +1,6 @@
 use std::char;
 use std::io;
+use screen::Screen;
 
 pub const MEM_SIZE: usize = 1 << 16;
 const REG_SIZE: usize = 8;
@@ -38,10 +39,11 @@ pub struct Cpu {
     pub enabled: bool,
     input_buffer: Vec<u8>,
     input_index: usize,
+    screen: Box<Screen>,
 }
 
 impl Cpu {
-    pub fn new() -> Cpu {
+    pub fn new(screen: Box<Screen>) -> Cpu {
         Cpu {
             memory: [0; MEM_SIZE],
             registers: [0; REG_SIZE],
@@ -49,7 +51,8 @@ impl Cpu {
             pc: 0,
             enabled: true,
             input_buffer: vec![],
-            input_index: 0
+            input_index: 0,
+            screen: screen
         }
     }
 
@@ -58,12 +61,6 @@ impl Cpu {
      */
     pub fn load_memory(&mut self, mem: &mut [u16; MEM_SIZE]) {
         self.memory = *mem;
-    }
-
-    pub fn print_memory(&self) {
-        for (index, value) in self.memory.iter().enumerate()  {
-            println!("[{:05}]: {:05}", index, value);
-        }
     }
 
     fn reg_lit(&self, val: u16) -> u16 {
@@ -98,7 +95,6 @@ impl Cpu {
      */
 
     fn halt(&mut self, _: Vec<u16>) {
-        println!("Halted with opcode {}", self.memory[self.pc - 1]);
         self.enabled = false;
     }
 
@@ -199,7 +195,8 @@ impl Cpu {
 
     fn out(&mut self, args: Vec<u16>) {
         let ascii = self.reg_lit(args[0]) as u32;
-        print!("{}", char::from_u32(ascii).expect("Invalid code"));
+        self.screen.print_console(char::from_u32(ascii)
+                                  .expect("Invalid code"));
     }
 
     // Called _in to avoid reserved word conflict with Rust's `in`

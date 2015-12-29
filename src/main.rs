@@ -1,9 +1,12 @@
 use std::env;
 use std::fs::File;
 use std::io;
+
 use cpu::Cpu;
+use screen::BasicScreen;
 
 mod cpu;
+mod screen;
 
 fn read_from_file(path: &str, memory: &mut [u16]) -> io::Result<usize> {
     use std::io::Read;
@@ -36,9 +39,11 @@ fn main() {
     let file_path = args.last().expect("Need a valid filename");
     read_from_file(&file_path, &mut memory).ok().expect("Failure reading program file");
 
-    let mut cpu = Cpu::new();
+    let screen = Box::new(BasicScreen::new());
+    let mut cpu = Cpu::new(screen);
     cpu.load_memory(&mut memory);
 
+    /*
     if args.len() > 1 {
         let first_arg = args.first().expect("");
         if first_arg == "-d" {
@@ -47,8 +52,9 @@ fn main() {
             panic!("Unknown parameter {}", first_arg);
         }
     } else {
+    */
         while cpu.enabled {
             cpu.execute();
         }
-    }
+    //}
 }
